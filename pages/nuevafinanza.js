@@ -57,8 +57,6 @@ const NuevaFinanza = () => {
       inicio: Yup.date(),
     }),
     onSubmit: async (valores) => {
-      console.log("onClick");
-
       const {
         concepto,
         cantidad,

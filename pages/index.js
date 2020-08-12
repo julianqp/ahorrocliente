@@ -94,6 +94,8 @@ export default function Home() {
       ingresos.push(x);
     }
   });
+  gasto = Math.round(gasto * 100) / 100;
+  ingreso = Math.round(ingreso * 100) / 100;
 
   return (
     <div>

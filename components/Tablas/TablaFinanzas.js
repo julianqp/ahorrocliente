@@ -1,5 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { lighten, makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,8 +9,40 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import TableFooter from "@material-ui/core/TableFooter";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Input from "../inputs/Input";
+
+const useToolbarStyles = makeStyles((theme) => ({
+  root: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+  },
+  highlight:
+    theme.palette.type === "light"
+      ? {
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
+      : {
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
+  title: {
+    flex: "1 1 100%",
+  },
+}));
+
+const EnhancedTableToolbar = (props) => {
+  const classes = useToolbarStyles();
+  const { value, setValue } = props;
+
+  return (
+    <Toolbar className={clsx(classes.root)}>
+      <Input value={value} setValue={setValue} />
+    </Toolbar>
+  );
+};
 
 const createData = (id, concepto, cantidad, fecha) => {
   return { id, concepto, cantidad, fecha };
@@ -30,10 +63,13 @@ const useStyles = makeStyles({
 
 const TablaFinanzas = ({ columnas, datos }) => {
   const classes = useStyles();
+  const [value, setValue] = React.useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const rows = datos.map(({ id, concepto, cantidad, fecha }) => {
+  const datosFiltrados = datos.filter((x) => x.concepto.includes(value));
+
+  const rows = datosFiltrados.map(({ id, concepto, cantidad, fecha }) => {
     return createData(id, concepto, cantidad, fecha);
   });
   const handleChangePage = (event, newPage) => {
@@ -45,26 +81,26 @@ const TablaFinanzas = ({ columnas, datos }) => {
     setPage(0);
   };
 
-  if (rows && rows.length > 0) {
-    return (
-      <Paper className={classes.root}>
-        <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columnas.map((column) => (
-                  <TableCell
-                    className={classes.cabecera}
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-
+  return (
+    <Paper className={classes.root}>
+      <EnhancedTableToolbar value={value} setValue={setValue} />
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columnas.map((column) => (
+                <TableCell
+                  className={classes.cabecera}
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {rows && rows.length > 0 ? (
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -89,26 +125,28 @@ const TablaFinanzas = ({ columnas, datos }) => {
                   );
                 })}
             </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-    );
-  } else {
-    return (
-      <div className="w-full bg-white rounded justify-center">
-        <p className="py-4 text-center text-xl">Sin contenido</p>
-      </div>
-    );
-  }
+          ) : (
+            <tr>
+              <td>
+                <div className="w-full bg-white rounded justify-center">
+                  <p className="py-4 text-center text-xl">Sin contenido</p>
+                </div>
+              </td>
+            </tr>
+          )}
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </Paper>
+  );
 };
 
 export default TablaFinanzas;
