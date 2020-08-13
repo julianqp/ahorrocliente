@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FotoPerfil = () => {
+const FotoPerfil = ({ usuario }) => {
   const classes = useStyles();
+  const { nombre, apellidos, saldo } = usuario;
 
   return (
     <div className={classes.root}>
@@ -31,8 +32,11 @@ const FotoPerfil = () => {
         className={classes.large}
       />
       <div>
-        <p className="text-white">Isabel</p>
-        <p className="text-white">Alcántara de Nicolás</p>
+        <div>
+          <p className="text-white">{nombre}</p>
+          <p className="text-white">{apellidos}</p>
+        </div>
+        <p className="text-white">Total: {saldo} €</p>
       </div>
     </div>
   );

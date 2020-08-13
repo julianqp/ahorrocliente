@@ -15,6 +15,7 @@ export const OBTENER_USUARIO = gql`
       nombre
       apellidos
       email
+      saldo
       creado
     }
   }
@@ -27,6 +28,7 @@ export const CREAR_NUEVO_USUARIO = gql`
       nombre
       apellidos
       email
+      saldo
       creado
     }
   }

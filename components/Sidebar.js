@@ -5,7 +5,7 @@ import config from "../config/config";
 import Copytight from "./Copytight";
 import FotoPerfil from "./FotoPerfil";
 
-const Sidebar = () => {
+const Sidebar = ({ usuario }) => {
   const router = useRouter();
 
   return (
@@ -13,8 +13,8 @@ const Sidebar = () => {
       <div>
         <p className="text-white text-2xl font-black">Finanzas</p>
       </div>
-      <FotoPerfil />
-      <nav className="mt-5 list-none">
+      <FotoPerfil usuario={usuario} />
+      <nav className="my-5 list-none">
         {config.menu.map((opcion) => {
           return (
             <li
