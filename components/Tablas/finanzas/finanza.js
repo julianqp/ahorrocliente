@@ -69,7 +69,6 @@ const Finanza = ({ value, column, id }) => {
           className="flex justify-center items-center bg-orange-600 py-2 px-2 w-full text-white rounded text-xs uppercase font-bold"
           onClick={() => editarFinanza(id)}
         >
-          Editar
           <svg fill="currentColor" className="w-4 h-4 ml-2" viewBox="0 0 20 20">
             <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
             <path
@@ -90,7 +89,6 @@ const Finanza = ({ value, column, id }) => {
           className="flex justify-center items-center bg-red-800 py-2 px-2 w-full text-white rounded text-xs uppercase font-bold"
           onClick={() => confirmarEliminarFinanza(id)}
         >
-          Eliminar
           <svg fill="currentColor" className="w-4 h-4 ml-2" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"

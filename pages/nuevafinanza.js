@@ -105,7 +105,7 @@ const NuevaFinanza = () => {
         {mensaje && <ErrorApi mensaje={mensaje} />}
         <div className="relative">
           <h1 className="text-2xl text-black font-light text-center">
-            Eliminar Finanza
+            Nueva Finanza
           </h1>
           <Link href="/">
             <p className="top-0 left-0 flex items-center ml-4 absolute text-left cursor-pointer hover:text-blue-900 hover:underline ">

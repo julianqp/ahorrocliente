@@ -95,7 +95,7 @@ const NuevaCuenta = () => {
         {mensaje && mostrarMensaje()}
 
         <h1 className="text-center text-2xl text-white font-light">
-          Crear Nueva Cuenta
+          Nueva Cuenta
         </h1>
 
         <div className="flex justify-center mt-5">
