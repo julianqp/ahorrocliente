@@ -150,13 +150,15 @@ const TablaFinanzas = ({ datos }) => {
                 })}
             </TableBody>
           ) : (
-            <tr>
-              <td>
-                <div className="w-full bg-white rounded justify-center">
-                  <p className="py-4 text-center text-xl">Sin contenido</p>
-                </div>
-              </td>
-            </tr>
+            <TableBody>
+              <tr>
+                <td>
+                  <div className="w-full bg-white rounded justify-center">
+                    <p className="py-4 text-center text-xl">Sin contenido</p>
+                  </div>
+                </td>
+              </tr>
+            </TableBody>
           )}
         </Table>
       </TableContainer>
