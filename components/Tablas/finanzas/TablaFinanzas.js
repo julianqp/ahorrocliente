@@ -10,8 +10,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Input from "../inputs/Input";
+import Input from "../../inputs/Input";
+import Finanza from "./finanza";
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TablaFinanzas = ({ columnas, datos }) => {
+const TablaFinanzas = ({ datos }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState("");
   const [page, setPage] = React.useState(0);
@@ -80,6 +80,34 @@ const TablaFinanzas = ({ columnas, datos }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const columnas = [
+    { id: "concepto", label: "Concepto", minWidth: 170 },
+    { id: "cantidad", label: "Cantidad", minWidth: 50 },
+    {
+      id: "fecha",
+      label: "Fecha",
+      minWidth: 50,
+      align: "right",
+      format: (value) => {
+        let newDate = new Date(parseInt(value, 10));
+        newDate = newDate.toLocaleDateString();
+        return newDate;
+      },
+    },
+    {
+      id: "eliminar",
+      label: "Eliminar",
+      maxWidth: 50,
+      align: "center",
+    },
+    {
+      id: "editar",
+      label: "Editar",
+      minWidth: 50,
+      align: "center",
+    },
+  ];
 
   return (
     <Paper className={classes.root}>
@@ -108,17 +136,13 @@ const TablaFinanzas = ({ columnas, datos }) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                       {columnas.map((column) => {
-                        const value = row[column.id];
-                        let valor;
-                        if (column.format) {
-                          valor = column.format(value);
-                        } else {
-                          valor = value;
-                        }
                         return (
-                          <TableCell key={column.id} align={column.align}>
-                            {valor}
-                          </TableCell>
+                          <Finanza
+                            key={`${row.id}-${column.id}`}
+                            id={row.id}
+                            column={column}
+                            value={row[column.id]}
+                          />
                         );
                       })}
                     </TableRow>

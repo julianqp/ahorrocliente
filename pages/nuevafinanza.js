@@ -4,17 +4,17 @@ import { useRouter } from "next/router";
 import * as Yup from "yup";
 import Layout from "../components/Layout";
 import ErrorMensaje from "../components/Mensajes/ErrorMensaje";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CREAR_NUEVA_FINANZA, OBTENER_FINANZAS } from "../querys/query";
 import Select from "react-select";
 import config from "../config/config";
 import ErrorApi from "../components/Mensajes/ErrorApi";
+import Link from "next/link";
 
 const NuevaFinanza = () => {
   const [mensaje, setMensaje] = useState(null);
-  const [categoria, setCategoria] = useState([]);
-  const [nuevaFinanza] = useMutation(
-    CREAR_NUEVA_FINANZA /*{
+  const [categoria, setCategoria] = useState(null);
+  const [nuevaFinanza] = useMutation(CREAR_NUEVA_FINANZA, {
     update(cache, { data: { nuevaFinanza } }) {
       // Obtener el objeto qu se desea actualizar
       const { obtenerFinanzasUsuario } = cache.readQuery({
@@ -29,8 +29,7 @@ const NuevaFinanza = () => {
         },
       });
     },
-  }*/
-  );
+  });
 
   const router = useRouter();
 
@@ -77,7 +76,6 @@ const NuevaFinanza = () => {
         fecha: fecha === "" ? undefined : fecha,
       };
 
-      console.log(obj);
       const variables = {
         input: obj,
       };
@@ -105,9 +103,27 @@ const NuevaFinanza = () => {
     <>
       <Layout>
         {mensaje && <ErrorApi mensaje={mensaje} />}
-        <h1 className="text-2xl text-black font-light text-center">
-          Nueva Fiananza
-        </h1>
+        <div className="relative">
+          <h1 className="text-2xl text-black font-light text-center">
+            Eliminar Finanza
+          </h1>
+          <Link href="/">
+            <p className="top-0 left-0 flex items-center ml-4 absolute text-left cursor-pointer hover:text-blue-900 hover:underline ">
+              <svg
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="chevron-left w-6 h-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              Volver
+            </p>
+          </Link>
+        </div>
         <div className="flex justify-center mt-5 ">
           <div className="w-full max-w-sm">
             <form
@@ -188,7 +204,7 @@ const NuevaFinanza = () => {
                   value={categoria}
                   options={config.categorias}
                   onChange={(opcion) => setCategoria(opcion)}
-                  placeholder="Busque o Seleccione el Cliente"
+                  placeholder="Busque o Seleccione la etiqueta"
                   noOptionsMessage={() => "No hay resultados"}
                 />
               </div>

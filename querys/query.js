@@ -67,3 +67,35 @@ export const OBTENER_FINANZAS = gql`
     }
   }
 `;
+
+export const OBTENER_FINANZA = gql`
+  query obtenerFianza($id: ID!) {
+    obtenerFianza(id: $id) {
+      id
+      concepto
+      cantidad
+      tipo
+      etiqueta
+      isMensual
+      inicio
+      fin
+      usuario
+      fecha
+      creado
+    }
+  }
+`;
+
+export const EDITAR_FINANZA = gql`
+  mutation editarFinanza($id: ID!, $input: FinanzaInput!) {
+    editarFinanza(id: $id, input: $input) {
+      id
+    }
+  }
+`;
+
+export const ELIMINAR_FINANZA = gql`
+  mutation eliminarFinanza($id: ID!) {
+    eliminarFinanza(id: $id)
+  }
+`;
