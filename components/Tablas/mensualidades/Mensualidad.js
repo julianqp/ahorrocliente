@@ -24,7 +24,7 @@ const Mensualidad = ({ value, column, id }) => {
   });
   const editarFinanza = (id) => {
     Router.push({
-      pathname: "/editarfinanza/[id]",
+      pathname: "/editarmensualidad/[id]",
       query: { id },
     });
   };
