@@ -2,13 +2,13 @@ import Head from "next/head";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { OBTENER_FINANZAS } from "../querys/query";
+import { OBTENER_FINANZAS, OBTENER_MENSUALIDADES } from "../querys/query";
 import { useQuery } from "@apollo/client";
-import TablaFinanzas from "../components/Tablas/finanzas/TablaFinanzas";
+import TablaMensualidades from "../components/Tablas/mensualidades/TablaMensualidades";
 import Header from "../components/Header";
 
-const Index = () => {
-  const { data, loading, error } = useQuery(OBTENER_FINANZAS);
+const Mensualidades = () => {
+  const { data, loading, error } = useQuery(OBTENER_MENSUALIDADES);
 
   const router = useRouter();
 
@@ -24,7 +24,7 @@ const Index = () => {
   let gasto = 0;
   let ingreso = 0;
   const gastos = [];
-  data.obtenerFinanzasUsuario.forEach((x) => {
+  data.obtenerMensualidadesUsuario.forEach((x) => {
     if (x.tipo === "GASTO") {
       gasto += x.cantidad;
       gastos.push(x);
@@ -39,11 +39,11 @@ const Index = () => {
   return (
     <div>
       <Layout>
-        <Header titulo="Finanzas" />
+        <Header titulo="Mensualidades" />
         <div>
-          <Link href="nuevafinanza/">
+          <Link href="nuevamensualidad">
             <a className="bg-blue-800 py-2 px-5 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold">
-              Nueva finanza
+              Nueva mensualidad
             </a>
           </Link>
         </div>
@@ -51,18 +51,19 @@ const Index = () => {
           <p className="text-2xl font-bold">Ingresos</p>
           <p>Total: {ingreso} €</p>
           <div className="mt-5">
-            <TablaFinanzas datos={ingresos} />
+            <TablaMensualidades datos={ingresos} />
           </div>
         </div>
         <div className="mt-2 ">
           <p className="text-2xl font-bold">Gastos</p>
           <p>Total: {gasto} €</p>
           <div className="mt-5">
-            <TablaFinanzas datos={gastos} />
+            <TablaMensualidades datos={gastos} />
           </div>
         </div>
       </Layout>
     </div>
   );
 };
-export default Index;
+
+export default Mensualidades;

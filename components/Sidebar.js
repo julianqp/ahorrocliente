@@ -23,7 +23,7 @@ const Sidebar = ({ usuario }) => {
                 router.pathname === opcion.enlace ? "bg-blue-800 p-2" : "p-2"
               }
             >
-              <Link href="/">
+              <Link href={opcion.enlace}>
                 <a className="text-white block">{opcion.titulo}</a>
               </Link>
             </li>

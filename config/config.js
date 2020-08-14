@@ -1,8 +1,12 @@
 const config = {
   menu: [
     {
-      titulo: "Home",
+      titulo: "Finanzas",
       enlace: "/",
+    },
+    {
+      titulo: "Mensualidades",
+      enlace: "/mensualidades",
     },
   ],
   categorias: [

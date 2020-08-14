@@ -1,7 +1,8 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import Titulo from "./Titulo";
+import PropTypes from "prop-types";
 
 const OBTENER_USUARIO = gql`
   query obtenerUsuario {
@@ -13,25 +14,8 @@ const OBTENER_USUARIO = gql`
   }
 `;
 
-const Header = () => {
+const Header = ({ titulo }) => {
   const router = useRouter();
-
-  // query de apollo
-  // const { data, loading, error} = useQuery(OBTENER_USUARIO);
-
-  // console.log(data)
-  // console.log(loading)
-  // console.log(error)
-
-  // Proteger que no accedamos a data antes de tener resultados
-  // if(loading) return null;
-
-  // Si no hay informacion
-  //if(!data) {
-  //  return router.push('/login');
-  //}
-
-  // const { nombre, apellido } = data.obtenerUsuario;
 
   const cerrarSesion = () => {
     localStorage.removeItem("token");
@@ -40,7 +24,7 @@ const Header = () => {
 
   return (
     <div className="sm:flex sm:justify-between mb-6">
-      <Titulo titulo="Home" />
+      <Titulo titulo={titulo} />
 
       <button
         onClick={() => cerrarSesion()}
@@ -54,3 +38,7 @@ const Header = () => {
 };
 
 export default Header;
+
+Header.propTypes = {
+  titulo: PropTypes.string.isRequired,
+};
