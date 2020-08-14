@@ -1,28 +1,17 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useMutation, gql } from "@apollo/client";
-
-const NUEVA_CUENTA = gql`
-  mutation nuevoUsuario($input: UsuarioInput) {
-    nuevoUsuario(input: $input) {
-      id
-      nombre
-      apellidos
-      email
-    }
-  }
-`;
+import { useMutation } from "@apollo/client";
+import { CREAR_NUEVO_USUARIO } from "../querys/query";
 
 const NuevaCuenta = () => {
   // State para el mensaje
   const [mensaje, guardarMensaje] = useState(null);
 
   // Mutation para crear nuevos usuarios
-  //const [ nuevoUsuario ] = useMutation(NUEVA_CUENTA);
+  const [nuevoUsuario] = useMutation(CREAR_NUEVO_USUARIO);
 
   // Routing
   const router = useRouter();
@@ -52,44 +41,42 @@ const NuevaCuenta = () => {
         .required("La constraseña es obligatoria")
         .min(6, "La contraseña debe tener al menos 6 caracteres")
         .equals([Yup.ref("password"), null], "Las contraseñas no coinciden"),
-    }) /*
-        onSubmit: async valores => {
-            // console.log('enviando');
-            // console.log(valores);
-            const { nombre, apellidos, email, password } = valores
-            
+    }),
+    onSubmit: async (valores) => {
+      const { nombre, apellidos, email, password } = valores;
 
-            try {
-                const { data } = await nuevoUsuario({
-                    variables : {
-                        input: {
-                            nombre,
-                            apellidos,
-                            email,
-                            password
-                        }
-                    }
-                });
-                console.log(data);
+      try {
+        const { data } = await nuevoUsuario({
+          variables: {
+            input: {
+              nombre,
+              apellidos,
+              email,
+              password,
+            },
+          },
+        });
+        console.log(data);
 
-                // Usuario creado correctamente
-                guardarMensaje(`Se creo correctamente el Usuario: ${data.nuevoUsuario.nombre} `);
+        // Usuario creado correctamente
+        guardarMensaje(
+          `Se creo correctamente el Usuario: ${data.nuevoUsuario.nombre} `
+        );
 
-                setTimeout(() => {
-                    guardarMensaje(null);
-                    router.push('/login')
-                }, 3000);
+        setTimeout(() => {
+          guardarMensaje(null);
+          router.push("/login");
+        }, 3000);
 
-                // Redirigir usuario para iniciar sesión
+        // Redirigir usuario para iniciar sesión
+      } catch (error) {
+        guardarMensaje(error.message.replace("GraphQL error: ", ""));
 
-            } catch (error) {
-                guardarMensaje(error.message.replace('GraphQL error: ', ''));
-
-                setTimeout(() => {
-                    guardarMensaje(null);
-                }, 3000);
-            }
-        }*/,
+        setTimeout(() => {
+          guardarMensaje(null);
+        }, 3000);
+      }
+    },
   });
 
   // if(loading) return 'Cargando...';
@@ -108,14 +95,14 @@ const NuevaCuenta = () => {
         {mensaje && mostrarMensaje()}
 
         <h1 className="text-center text-2xl text-white font-light">
-          Crear Nueva Cuenta
+          Nueva Cuenta
         </h1>
 
         <div className="flex justify-center mt-5">
-          <div className="w-full max-w-sm">
+          <div className="w-full max-w-lg">
             <form
               className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
-              //onSubmit={formik.handleSubmit}
+              onSubmit={formik.handleSubmit}
             >
               <div className="mb-4">
                 <label

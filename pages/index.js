@@ -5,6 +5,7 @@ import Link from "next/link";
 import { OBTENER_FINANZAS } from "../querys/query";
 import { useQuery } from "@apollo/client";
 import Finanza from "../components/Finanza";
+import TablaFinanzas from "../components/Tablas/finanzas/TablaFinanzas";
 
 export default function Home() {
   const { data, loading, error } = useQuery(OBTENER_FINANZAS);
@@ -32,13 +33,15 @@ export default function Home() {
       ingresos.push(x);
     }
   });
+  gasto = Math.round(gasto * 100) / 100;
+  ingreso = Math.round(ingreso * 100) / 100;
 
   return (
     <div>
       <Layout>
         <div>
           <Link href="nuevafinanza/">
-            <a className="bg-blue-800 py-2 px-5 mt-3 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold">
+            <a className="bg-blue-800 py-2 px-5 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold">
               Nueva finanza
             </a>
           </Link>
@@ -46,45 +49,15 @@ export default function Home() {
         <div className="mt-2 overflow-x-auto">
           <p className="text-2xl font-bold">Ingresos</p>
           <p>Total: {ingreso} €</p>
-          <div className="mt-5 overflow-x-auto">
-            <table className="table-auto  shadow-md mt-5 w-full w-lg">
-              <thead className="bg-gray-800">
-                <tr className="text-white">
-                  <th className="w-1/5 py-2">Concepto</th>
-                  <th className="w-1/5 py-2">Cantidad</th>
-                  <th className="w-1/5 py-2">Fecha</th>
-                  <th className="w-1/5 py-2">Eliminar</th>
-                  <th className="w-1/5 py-2">Editar</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {ingresos.map((finanza) => (
-                  <Finanza key={finanza.id} finanza={finanza} />
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-5">
+            <TablaFinanzas datos={ingresos} />
           </div>
         </div>
         <div className="mt-2 ">
           <p className="text-2xl font-bold">Gastos</p>
           <p>Total: {gasto} €</p>
-          <div className="mt-5 overflow-x-auto">
-            <table className="table-auto shadow-md mt-5 w-full w-lg">
-              <thead className="bg-gray-800">
-                <tr className="text-white">
-                  <th className="w-1/5 py-2">Concepto</th>
-                  <th className="w-1/5 py-2">Cantidad</th>
-                  <th className="w-1/5 py-2">Fecha</th>
-                  <th className="w-1/5 py-2">Eliminar</th>
-                  <th className="w-1/5 py-2">Editar</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {gastos.map((finanza) => (
-                  <Finanza key={finanza.id} finanza={finanza} />
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-5">
+            <TablaFinanzas datos={gastos} />
           </div>
         </div>
       </Layout>
