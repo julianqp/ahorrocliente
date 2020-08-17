@@ -5,28 +5,34 @@ import * as Yup from "yup";
 import Layout from "../components/Layout";
 import ErrorMensaje from "../components/Mensajes/ErrorMensaje";
 import { useMutation } from "@apollo/client";
-import { CREAR_NUEVA_FINANZA, OBTENER_FINANZAS } from "../querys/query";
+import {
+  CREAR_NUEVA_MENSUALIDAD,
+  OBTENER_MENSUALIDADES,
+} from "../querys/query";
 import Select from "react-select";
 import config from "../config/config";
 import ErrorApi from "../components/Mensajes/ErrorApi";
 import Link from "next/link";
 import Header from "../components/Header";
 
-const NuevaFinanza = () => {
+const NuevaMensualidad = () => {
   const [mensaje, setMensaje] = useState(null);
   const [categoria, setCategoria] = useState(null);
-  const [nuevaFinanza] = useMutation(CREAR_NUEVA_FINANZA, {
-    update(cache, { data: { nuevaFinanza } }) {
+  const [nuevaMensualidad] = useMutation(CREAR_NUEVA_MENSUALIDAD, {
+    update(cache, { data: { nuevaMensualidad } }) {
       // Obtener el objeto qu se desea actualizar
-      const { obtenerFinanzasUsuario } = cache.readQuery({
-        query: OBTENER_FINANZAS,
+      const { obtenerMensualidadesUsuario } = cache.readQuery({
+        query: OBTENER_MENSUALIDADES,
       });
 
       // reescribir el cache
       cache.writeQuery({
-        query: OBTENER_FINANZAS,
+        query: OBTENER_MENSUALIDADES,
         data: {
-          obtenerFinanzasUsuario: [...obtenerFinanzasUsuario, nuevaFinanza],
+          obtenerMensualidadesUsuario: [
+            ...obtenerMensualidadesUsuario,
+            nuevaMensualidad,
+          ],
         },
       });
     },
@@ -43,7 +49,7 @@ const NuevaFinanza = () => {
       isMensual: "",
       inicio: "",
       fin: "",
-      fecha: "",
+      dia: "",
     },
     validationSchema: Yup.object({
       concepto: Yup.string().required("El concepto es obligatorio"),
@@ -67,7 +73,6 @@ const NuevaFinanza = () => {
         cantidad,
         etiqueta: categoria.label,
         tipo,
-        isMensual: isMensual === "true" ? true : false,
         inicio: inicio,
         fin: fin === "" ? undefined : fin,
         dia: dia,
@@ -78,14 +83,14 @@ const NuevaFinanza = () => {
       };
 
       try {
-        const { data } = await nuevaFinanza({ variables });
+        const { data } = await nuevaMensualidad({ variables });
 
         setMensaje(
-          `La finanza con concepto ${data.nuevaFinanza.concepto} se ha creado correctamente.`
+          `La finanza con concepto ${data.nuevaMensualidad.concepto} se ha creado correctamente.`
         );
         setTimeout(() => {
           setMensaje(null);
-          router.push("/");
+          router.push("/mensualidades");
         }, 4000);
       } catch (error) {
         setMensaje(error.message);
@@ -251,7 +256,7 @@ const NuevaFinanza = () => {
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="fecha"
+                  htmlFor="dia"
                 >
                   Día de actuación de la finanza
                 </label>
@@ -283,4 +288,4 @@ const NuevaFinanza = () => {
   );
 };
 
-export default NuevaFinanza;
+export default NuevaMensualidad;

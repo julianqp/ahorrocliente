@@ -49,6 +49,23 @@ export const CREAR_NUEVA_FINANZA = gql`
   }
 `;
 
+export const CREAR_NUEVA_MENSUALIDAD = gql`
+  mutation nuevaMensualidad($input: MensualidadInput!) {
+    nuevaMensualidad(input: $input) {
+      id
+      concepto
+      cantidad
+      tipo
+      etiqueta
+      inicio
+      fin
+      usuario
+      dia
+      creado
+    }
+  }
+`;
+
 export const OBTENER_FINANZAS = gql`
   query obtenerFinanzasUsuario {
     obtenerFinanzasUsuario {

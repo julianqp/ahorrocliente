@@ -35,10 +35,7 @@ const EditarFinanza = () => {
       .moreThan(-0.9, "Debe ser mayor que cero.")
       .required("El precio obligatorio"),
     tipo: Yup.string().required("El tipo es obligatorio"),
-    isMensual: Yup.bool().required("La mensualidad es obligatoria"),
-    inicio: Yup.date(),
-    fin: Yup.date(),
-    inicio: Yup.date(),
+    fecha: Yup.string().required("La fecha es obligatoria."),
   });
 
   if (loading) return "Cargando...";
@@ -54,17 +51,14 @@ const EditarFinanza = () => {
   }
 
   const actualizarInfoFinanza = async (valores) => {
-    const { concepto, cantidad, tipo, isMensual, inicio, fin, fecha } = valores;
+    const { concepto, cantidad, tipo, fecha } = valores;
 
     const obj = {
       concepto,
       cantidad,
       etiqueta: categoria.label,
       tipo,
-      isMensual: isMensual === "true" ? true : false,
-      inicio: inicio === "" ? undefined : inicio,
-      fin: fin === "" ? undefined : fin,
-      fecha: fecha === "" ? undefined : fecha,
+      fecha,
     };
 
     try {
@@ -129,12 +123,7 @@ const EditarFinanza = () => {
                 let fecha = props.values.fecha
                   ? formatoFecha(props.values.fecha)
                   : null;
-                let inicio = props.values.inicio
-                  ? formatoFecha(props.values.inicio)
-                  : "";
-                let fin = props.values.fin
-                  ? formatoFecha(props.values.fin)
-                  : "";
+                console.log(props.errors);
 
                 return (
                   <form
@@ -219,99 +208,6 @@ const EditarFinanza = () => {
                         noOptionsMessage={() => "No hay resultados"}
                       />
                     </div>
-                    <div className="mb-4">
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="isMensual"
-                      >
-                        Mensualidad
-                      </label>
-                      <div className="flex items-center justify-around">
-                        <div>
-                          <label htmlFor="true">
-                            <input
-                              checked={
-                                props.values.isMensual === true ||
-                                props.values.isMensual === "true"
-                              }
-                              type="radio"
-                              id="true"
-                              name="isMensual"
-                              value={"true"}
-                              onChange={props.handleChange}
-                              onBlur={props.handleBlur}
-                            />
-                            <span className="ml-2">Si</span>
-                          </label>
-                        </div>
-                        <div>
-                          <label className="ml-2" htmlFor="false">
-                            <input
-                              checked={
-                                props.values.isMensual === false ||
-                                props.values.isMensual === "false"
-                              }
-                              type="radio"
-                              id="false"
-                              name="isMensual"
-                              value={"false"}
-                              onChange={props.handleChange}
-                              onBlur={props.handleBlur}
-                            />
-                            <span className="ml-2">No</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    {props.touched.isMensual && props.errors.isMensual && (
-                      <ErrorMensaje mensaje={props.errors.isMensual} />
-                    )}
-                    {props.values.isMensual === "true" ? (
-                      <>
-                        <div className="mb-4">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            htmlFor="inicio"
-                          >
-                            Fecha inicio mensaulidad
-                          </label>
-                          <input
-                            id="inicio"
-                            type="date"
-                            placeholder="Fecha del importe"
-                            className="shadow appearence-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={inicio || ""}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                          />
-                        </div>
-                        {props.touched.inicio && props.errors.inicio && (
-                          <ErrorMensaje mensaje={props.errors.inicio} />
-                        )}
-                        <div className="mb-4">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            htmlFor="fin"
-                          >
-                            Fecha fin mensualidad
-                          </label>
-                          <input
-                            id="fin"
-                            type="date"
-                            placeholder="Fecha del importe"
-                            className="shadow appearence-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            value={fin || ""}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                          />
-                        </div>
-                        {props.touched.fin && props.errors.fin && (
-                          <ErrorMensaje mensaje={props.errors.fin} />
-                        )}
-                      </>
-                    ) : (
-                      ""
-                    )}
                     <div className="mb-4">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2"

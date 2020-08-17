@@ -1,34 +1,37 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
-import { OBTENER_FINANZAS, ELIMINAR_FINANZA } from "../../../querys/query";
+import {
+  OBTENER_MENSUALIDADES,
+  ELIMINAR_MENSUALIDAD,
+} from "../../../querys/query";
 import Swal from "sweetalert2";
 import TableCell from "@material-ui/core/TableCell";
 import Router from "next/router";
 
 const Mensualidad = ({ value, column, id }) => {
-  const [eliminarFinanza] = useMutation(ELIMINAR_FINANZA, {
+  const [eliminarMensualidad] = useMutation(ELIMINAR_MENSUALIDAD, {
     update(cache) {
-      const { obtenerFinanzasUsuario } = cache.readQuery({
-        query: OBTENER_FINANZAS,
+      const { obtenerMensualidadesUsuario } = cache.readQuery({
+        query: OBTENER_MENSUALIDADES,
       });
 
       cache.writeQuery({
-        query: OBTENER_FINANZAS,
+        query: OBTENER_MENSUALIDADES,
         data: {
-          obtenerFinanzasUsuario: obtenerFinanzasUsuario.filter(
-            (finanzaActual) => finanzaActual.id !== id
+          obtenerMensualidadesUsuario: obtenerMensualidadesUsuario.filter(
+            (mensualidadActual) => mensualidadActual.id !== id
           ),
         },
       });
     },
   });
-  const editarFinanza = (id) => {
+  const editarMensualidad = (id) => {
     Router.push({
       pathname: "/editarmensualidad/[id]",
       query: { id },
     });
   };
-  const confirmarEliminarFinanza = (id) => {
+  const confirmarEliminarMensualidad = (id) => {
     Swal.fire({
       title: "¿Deseas eliminar la finanza?",
       text: "Esta acción no se puede deshacer",
@@ -42,13 +45,13 @@ const Mensualidad = ({ value, column, id }) => {
       if (result.value) {
         try {
           // eliminar finanza de la bd
-          const { data } = await eliminarFinanza({
+          const { data } = await eliminarMensualidad({
             variables: {
               id,
             },
           });
 
-          Swal.fire("Correcto", data.eliminarFinanza, "success");
+          Swal.fire("Correcto", data.eliminarMensualidad, "success");
         } catch (error) {
           console.log(error);
         }
@@ -67,7 +70,7 @@ const Mensualidad = ({ value, column, id }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-orange-600 py-2 px-2 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={() => editarFinanza(id)}
+          onClick={() => editarMensualidad(id)}
         >
           <svg fill="currentColor" className="w-4 h-4 ml-2" viewBox="0 0 20 20">
             <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
@@ -87,7 +90,7 @@ const Mensualidad = ({ value, column, id }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-2 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={() => confirmarEliminarFinanza(id)}
+          onClick={() => confirmarEliminarMensualidad(id)}
         >
           <svg fill="currentColor" className="w-4 h-4 ml-2" viewBox="0 0 20 20">
             <path

@@ -137,7 +137,6 @@ const TablaMensualidades = ({ datos }) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                       {columnas.map((column) => {
-                        console.log({ row });
                         return (
                           <Mensualidad
                             key={`${row.id}-${column.id}`}
