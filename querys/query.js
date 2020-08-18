@@ -42,9 +42,6 @@ export const CREAR_NUEVA_FINANZA = gql`
       cantidad
       tipo
       etiqueta
-      isMensual
-      inicio
-      fin
       usuario
       fecha
       creado
@@ -60,9 +57,6 @@ export const OBTENER_FINANZAS = gql`
       cantidad
       tipo
       etiqueta
-      isMensual
-      inicio
-      fin
       usuario
       fecha
       creado
@@ -78,9 +72,6 @@ export const OBTENER_FINANZA = gql`
       cantidad
       tipo
       etiqueta
-      isMensual
-      inicio
-      fin
       usuario
       fecha
       creado

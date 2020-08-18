@@ -50,27 +50,15 @@ const NuevaFinanza = () => {
         .moreThan(-0.9, "Debe ser mayor que cero.")
         .required("El precio obligatorio"),
       tipo: Yup.string().required("El tipo es obligatorio"),
-      isMensual: Yup.bool().required("La mensualidad es obligatoria"),
-      inicio: Yup.date(),
-      fin: Yup.date(),
-      inicio: Yup.date(),
+      fecha: Yup.date().required("La fecha es obligatoria."),
     }),
     onSubmit: async (valores) => {
-      const {
-        concepto,
-        cantidad,
-        tipo,
-        isMensual,
-        inicio,
-        fin,
-        fecha,
-      } = valores;
+      const { concepto, cantidad, tipo, inicio, fin, fecha } = valores;
       const obj = {
         concepto,
         cantidad,
         etiqueta: categoria.label,
         tipo,
-        isMensual: isMensual === "true" ? true : false,
         inicio: inicio === "" ? undefined : inicio,
         fin: fin === "" ? undefined : fin,
         fecha: fecha === "" ? undefined : fecha,
@@ -208,91 +196,6 @@ const NuevaFinanza = () => {
                   noOptionsMessage={() => "No hay resultados"}
                 />
               </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="isMensual"
-                >
-                  Mensualidad
-                </label>
-                <div className="flex items-center justify-around">
-                  <div>
-                    <label htmlFor="true">
-                      <input
-                        type="radio"
-                        id="true"
-                        name="isMensual"
-                        value={true}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                      <span className="ml-2">Si</span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="ml-2" htmlFor="false">
-                      <input
-                        type="radio"
-                        id="false"
-                        name="isMensual"
-                        value={false}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                      <span className="ml-2">No</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              {formik.touched.isMensual && formik.errors.isMensual && (
-                <ErrorMensaje mensaje={formik.errors.isMensual} />
-              )}
-              {formik.values.isMensual === "true" ? (
-                <>
-                  <div className="mb-4">
-                    <label
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                      htmlFor="inicio"
-                    >
-                      Fecha inicio mensaulidad
-                    </label>
-                    <input
-                      id="inicio"
-                      type="date"
-                      placeholder="Fecha del importe"
-                      className="shadow appearence-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={formik.values.inicio}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  {formik.touched.inicio && formik.errors.inicio && (
-                    <ErrorMensaje mensaje={formik.errors.inicio} />
-                  )}
-                  <div className="mb-4">
-                    <label
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                      htmlFor="fin"
-                    >
-                      Fecha fin mensualidad
-                    </label>
-                    <input
-                      id="fin"
-                      type="date"
-                      placeholder="Fecha del importe"
-                      className="shadow appearence-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={formik.values.fin}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  {formik.touched.fin && formik.errors.fin && (
-                    <ErrorMensaje mensaje={formik.errors.fin} />
-                  )}
-                </>
-              ) : (
-                ""
-              )}
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"

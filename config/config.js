@@ -1,7 +1,7 @@
 const config = {
   menu: [
     {
-      titulo: "Home",
+      titulo: "Finanzas",
       enlace: "/",
     },
   ],

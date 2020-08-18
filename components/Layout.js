@@ -10,7 +10,9 @@ const Layout = ({ children }) => {
   // Hook de routing
   const router = useRouter();
 
-  const { data, loading, error } = useQuery(OBTENER_USUARIO);
+  const { data, loading, error } = useQuery(OBTENER_USUARIO, {
+    fetchPolicy: "cache-and-network", // network-only
+  });
 
   if (loading) {
     return "Cargando...";
@@ -33,7 +35,6 @@ const Layout = ({ children }) => {
         <div className="sm:flex min-h-screen">
           <Sidebar usuario={obtenerUsuario} />
           <main className="sm:w-2/3 xl:w-4/5 sm:min-h-screen p-5">
-            <Header />
             {children}
           </main>
         </div>
