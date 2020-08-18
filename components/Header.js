@@ -4,16 +4,6 @@ import { useRouter } from "next/router";
 import Titulo from "./Titulo";
 import PropTypes from "prop-types";
 
-const OBTENER_USUARIO = gql`
-  query obtenerUsuario {
-    obtenerUsuario {
-      id
-      nombre
-      apellido
-    }
-  }
-`;
-
 const Header = ({ titulo }) => {
   const router = useRouter();
 

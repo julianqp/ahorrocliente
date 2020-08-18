@@ -4,10 +4,6 @@ const config = {
       titulo: "Finanzas",
       enlace: "/",
     },
-    {
-      titulo: "Mensualidades",
-      enlace: "/mensualidades",
-    },
   ],
   categorias: [
     {

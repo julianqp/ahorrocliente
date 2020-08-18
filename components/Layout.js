@@ -10,7 +10,9 @@ const Layout = ({ children }) => {
   // Hook de routing
   const router = useRouter();
 
-  const { data, loading, error } = useQuery(OBTENER_USUARIO);
+  const { data, loading, error } = useQuery(OBTENER_USUARIO, {
+    fetchPolicy: "cache-and-network", // network-only
+  });
 
   if (loading) {
     return "Cargando...";

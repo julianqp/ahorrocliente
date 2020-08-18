@@ -49,23 +49,6 @@ export const CREAR_NUEVA_FINANZA = gql`
   }
 `;
 
-export const CREAR_NUEVA_MENSUALIDAD = gql`
-  mutation nuevaMensualidad($input: MensualidadInput!) {
-    nuevaMensualidad(input: $input) {
-      id
-      concepto
-      cantidad
-      tipo
-      etiqueta
-      inicio
-      fin
-      usuario
-      dia
-      creado
-    }
-  }
-`;
-
 export const OBTENER_FINANZAS = gql`
   query obtenerFinanzasUsuario {
     obtenerFinanzasUsuario {
@@ -107,36 +90,5 @@ export const EDITAR_FINANZA = gql`
 export const ELIMINAR_FINANZA = gql`
   mutation eliminarFinanza($id: ID!) {
     eliminarFinanza(id: $id)
-  }
-`;
-
-export const OBTENER_MENSUALIDADES = gql`
-  query obtenerMensualidadesUsuario {
-    obtenerMensualidadesUsuario {
-      id
-      concepto
-      cantidad
-      tipo
-      etiqueta
-      inicio
-      fin
-      usuario
-      dia
-      creado
-    }
-  }
-`;
-
-export const EDITAR_MENSUALIDAD = gql`
-  mutation editarMensualidad($id: ID!, $input: MensualidadInput!) {
-    editarMensualidad(id: $id, input: $input) {
-      id
-    }
-  }
-`;
-
-export const ELIMINAR_MENSUALIDAD = gql`
-  mutation eliminarMensualidad($id: ID!) {
-    eliminarMensualidad(id: $id)
   }
 `;
